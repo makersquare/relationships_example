@@ -9,7 +9,15 @@ class User < ActiveRecord::Base
   # find other users who have followed the current user
   has_many :followers, through: :reverse_relationships, source: :follower
 
-  def following?(other_user); end
-  def follow!(other_user); end
-  def unfollow!(other_user); end
+  def following?(other_user)
+    relationships.find_by(followed_id: other_user.id) ? true : false
+  end
+
+  def follow!(other_user)
+    relationships.create!(followed_id: other_user.id)
+  end
+
+  def unfollow!(other_user)
+    relationships.find_by(followed_id: other_user.id).destroy
+  end
 end
