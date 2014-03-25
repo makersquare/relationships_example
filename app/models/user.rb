@@ -8,4 +8,8 @@ class User < ActiveRecord::Base
   has_many :reverse_relationships, foreign_key: "followed_id", class_name: "Relationship"
   # find other users who have followed the current user
   has_many :followers, through: :reverse_relationships, source: :follower
+
+  def following?(other_user); end
+  def follow!(other_user); end
+  def unfollow!(other_user); end
 end
